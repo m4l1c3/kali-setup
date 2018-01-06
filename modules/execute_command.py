@@ -3,7 +3,7 @@ Command execution module
 """
 
 from subprocess import CalledProcessError
-from subprocess import check_output
+from subprocess import Popen
 from modules.logger import Logger
 
 class ExecuteCommand(object):
@@ -21,7 +21,7 @@ class ExecuteCommand(object):
         Execute a command using subprocess.check_output
         """
         try:
-            return check_output(command_text.split(" "))
+            return Popen(command_text.split(" "), stdout=subprocess.PIPE)
         except (OSError, CalledProcessError) as error:
             self.logger.error("Error processing command: " + command_text + " " + error.output)
             return
