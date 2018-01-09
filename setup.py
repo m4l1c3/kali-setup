@@ -22,6 +22,7 @@ class KaliSetup(object):
         self.presentation.print_footer()
         self.get_commands()
         self.executioner = ExecuteCommand()
+        self.basedir = "~/"
         for command in self.commands:
             print(command)
             self.executioner.execute_command(command)
@@ -59,12 +60,14 @@ class KaliSetup(object):
         #                      "network-manager-pptp-gnome" +
         #                      "network-manager-strongswan network-manager-vpnc " +
         #                      "network-manager-vpnc-gnome")
-        self.commands.append("git clone https://github.com/OJ/gobuster.git")
-        self.commands.append("git clone https://github.com/jhaddix/domain.git")
-        self.commands.append("wget https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz")
-        self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git")
-        self.commands.append("mkdir -p ~/burpmodules")
-        self.commands.append("git clone https://github.com/bugcrowd/HUNT.git")
-        self.commands.append("git clone https://github.com/danielmiessler/SecLists")
+        self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir)
+        self.commands.append("git clone https://github.com/jhaddix/domain.git " + self.basedir)
+        self.commands.append("wget https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz ")
+        self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git "
+                             + self.basedir)
+        self.commands.append("mkdir -p " + self.basedir + "/burpmodules")
+        self.commands.append("git clone https://github.com/bugcrowd/HUNT.git " + self.basedir
+                             + "/burpmodules")
+        self.commands.append("git clone https://github.com/danielmiessler/SecLists " + self.basedir)
 
 KaliSetup()
