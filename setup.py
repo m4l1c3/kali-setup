@@ -3,7 +3,6 @@ Main runtime class, runs all the setup commands
 """
 
 from multiprocessing.dummy import Pool as ThreadPool
-from termcolor import colored
 from modules.logger import Logger
 from modules.presentation import Presentation
 
@@ -38,11 +37,11 @@ class KaliSetup(object):
         """
         Get assets
         """
-        return
+        return self
     def get_tasks(self):
         """
         Get tasks
         """
-        return
+        return self
 
 KaliSetup()
