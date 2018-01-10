@@ -20,9 +20,11 @@ class KaliSetup(object):
         self.website = 'https://github.com/m4l1c3/kali-setup'
         self.presentation.print_header(self.version)
         self.presentation.print_footer()
-        self.get_commands()
-        self.executioner = ExecuteCommand()
         self.basedir = "~/"
+        self.get_commands()
+        self.setup_go()
+        self.get_gobuster()
+        self.executioner = ExecuteCommand()
         for command in self.commands:
             print(command)
             self.executioner.execute_command(command)
@@ -53,12 +55,12 @@ class KaliSetup(object):
         get commands to run
         """
         self.commands = []
-        # self.commands.append("apt-get update")
-        # self.commands.append("network-manager-openvpn network-manager-openvpn-gnome " +
-        #                      "network-manager-pptp" +
-        #                      "network-manager-pptp-gnome" +
-        #                      "network-manager-strongswan network-manager-vpnc " +
-        #                      "network-manager-vpnc-gnome")
+        self.commands.append("apt-get update")
+        self.commands.append("network-manager-openvpn network-manager-openvpn-gnome " +
+                             "network-manager-pptp" +
+                             "network-manager-pptp-gnome" +
+                             "network-manager-strongswan network-manager-vpnc " +
+                             "network-manager-vpnc-gnome")
         self.commands.append("git clone https://github.com/jhaddix/domain.git " + self.basedir)
         self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git "
                              + self.basedir)
