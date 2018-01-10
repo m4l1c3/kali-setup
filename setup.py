@@ -12,8 +12,8 @@ class KaliSetup(object):
     """
     Setup Object
     """
-    logger = Logger()
     def __init__(self):
+        self.logger = Logger()
         self.thread_pool = ThreadPool(4)
         self.version = '0.0.1'
         self.presentation = Presentation()
@@ -24,7 +24,7 @@ class KaliSetup(object):
         self.get_commands()
         self.executioner = ExecuteCommand()
         for command in self.commands:
-            logger.Info('Running: ' + command)
+            self.logger.normal('Running: ' + command)
             self.executioner.execute_command(command)
         # install vmware tools
         #install golang
