@@ -20,7 +20,7 @@ class KaliSetup(object):
         self.website = 'https://github.com/m4l1c3/kali-setup'
         self.presentation.print_header(self.version)
         self.presentation.print_footer()
-        self.basedir = "~/"
+        self.basedir = "/root"
         self.get_commands()
         self.setup_go()
         self.get_gobuster()
