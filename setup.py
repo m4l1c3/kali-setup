@@ -24,7 +24,7 @@ class KaliSetup(object):
         self.get_commands()
         self.executioner = ExecuteCommand()
         for command in self.commands:
-            self.logger.normal('Running: ' + command)
+            self.logger.normal_output('Running: ' + command)
             self.executioner.execute_command(command)
         # install vmware tools
         #install golang
