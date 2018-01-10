@@ -22,11 +22,9 @@ class KaliSetup(object):
         self.presentation.print_footer()
         self.basedir = "/root"
         self.get_commands()
-        self.setup_go()
-        self.get_gobuster()
         self.executioner = ExecuteCommand()
         for command in self.commands:
-            print(command)
+            logger.Info('Running: ' + command)
             self.executioner.execute_command(command)
         # install vmware tools
         #install golang
@@ -55,12 +53,9 @@ class KaliSetup(object):
         get commands to run
         """
         self.commands = []
-        self.commands.append("apt-get update")
-        self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
-                             "network-manager-pptp " +
-                             "network-manager-pptp-gnome " +
-                             "network-manager-strongswan network-manager-vpnc " +
-                             "network-manager-vpnc-gnome")
+        self.get_apt_commands()
+        self.setup_go()
+        self.get_gobuster()
         # self.commands.append("git clone https://github.com/jhaddix/domain.git " + self.basedir)
         # self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git "
         #                      + self.basedir)
@@ -68,6 +63,13 @@ class KaliSetup(object):
         # self.commands.append("git clone https://github.com/bugcrowd/HUNT.git " + self.basedir
         #                      + "/burpmodules")
         # self.commands.append("git clone https://github.com/danielmiessler/SecLists " + self.basedir)
+
+    def get_apt_commands(self):
+        self.commands.append("apt-get update")
+        self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
+                             "network-manager-pptp network-manager-pptp-gnome network-manager-strongswan " + 
+                             "network-manager-vpnc network-manager-vpnc-gnome neovim")
+        self.commands.append("apt-get -y dist-upgrade")
 
     def setup_go(self):
         """
