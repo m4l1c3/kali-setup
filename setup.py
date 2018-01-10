@@ -56,7 +56,7 @@ class KaliSetup(object):
         """
         self.commands = []
         self.commands.append("apt-get update")
-        self.commands.append("network-manager-openvpn network-manager-openvpn-gnome " +
+        self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
                              "network-manager-pptp" +
                              "network-manager-pptp-gnome" +
                              "network-manager-strongswan network-manager-vpnc " +
