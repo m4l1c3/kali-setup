@@ -6,14 +6,15 @@ from multiprocessing.dummy import Pool as ThreadPool
 from modules.logger import Logger
 from modules.presentation import Presentation
 from modules.execute_command import ExecuteCommand
+import os
 
 
 class KaliSetup(object):
     """
     Setup Object
     """
-    logger = Logger()
     def __init__(self):
+        #  logger = Logger()
         self.thread_pool = ThreadPool(4)
         self.version = '0.0.1'
         self.presentation = Presentation()
@@ -24,9 +25,11 @@ class KaliSetup(object):
         self.get_commands()
         self.setup_go()
         self.get_gobuster()
+        self.setup_domain()
+        self.setup_reconng()
+        self.setup_burpmodules()
         self.executioner = ExecuteCommand()
         for command in self.commands:
-            print(command)
             self.executioner.execute_command(command)
         # install vmware tools
         #install golang
@@ -57,17 +60,23 @@ class KaliSetup(object):
         self.commands = []
         self.commands.append("apt-get update")
         self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
-                             "network-manager-pptp " +
-                             "network-manager-pptp-gnome " +
-                             "network-manager-strongswan network-manager-vpnc " +
-                             "network-manager-vpnc-gnome")
-        # self.commands.append("git clone https://github.com/jhaddix/domain.git " + self.basedir)
-        # self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git "
-        #                      + self.basedir)
-        # self.commands.append("mkdir -p " + self.basedir + "/burpmodules")
-        # self.commands.append("git clone https://github.com/bugcrowd/HUNT.git " + self.basedir
-        #                      + "/burpmodules")
-        # self.commands.append("git clone https://github.com/danielmiessler/SecLists " + self.basedir)
+                             "network-manager-pptp network-manager-pptp-gnome network-manager-strongswan " +
+                             " network-manager-vpnc network-manager-vpnc-gnome neovim")
+    def setup_burpmodules(self):
+        self.commands.append("mkdir -p " + self.basedir + "/burpmodules")
+        if not os.path.exists(self.basedir + "/HUNT"):
+            self.commands.append("git clone https://github.com/bugcrowd/HUNT.git " + self.basedir
+                            + "/burpmodules/HUNT")
+        if not os.path.exists(self.basedir + "/SecLists"):
+            self.commands.append("git clone https://github.com/danielmiessler/SecLists " + self.basedir + "/SecLists")
+
+    def setup_domain(self):
+        if not os.path.exists(self.basedir + "/domain"):
+            self.commands.append("git clone https://github.com/jhaddix/domain.git " + self.basedir + "/domain")
+    
+    def setup_reconng(self):
+        if not os.path.exists(self.basedir + "/recon-ng"):
+            self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git " + self.basedir + "/recon-ng")
 
     def setup_go(self):
         """

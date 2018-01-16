@@ -10,18 +10,16 @@ class ExecuteCommand(object):
     """
     Command execution object
     """
-
-    logger = Logger()
-
     def __init__(self):
-        return
+        self.logger = Logger()
 
     def execute_command(self, command_text):
         """
         Execute a command using subprocess.check_output
         """
+        self.logger.normal_output(command_text)
         try:
-            return subprocess.Popen(command_text.split(" "), stdout=subprocess.PIPE)
+            return subprocess.check_output(command_text.split(" "))
         except (OSError, CalledProcessError) as error:
             self.logger.error("Error processing command: " + command_text + " " + error.output)
             return
