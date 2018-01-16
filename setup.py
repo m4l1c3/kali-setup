@@ -14,7 +14,6 @@ class KaliSetup(object):
     Setup Object
     """
     def __init__(self):
-        #  logger = Logger()
         self.thread_pool = ThreadPool(4)
         self.version = '0.0.1'
         self.presentation = Presentation()
@@ -58,10 +57,8 @@ class KaliSetup(object):
         get commands to run
         """
         self.commands = []
-        self.commands.append("apt-get update")
-        self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
-                             "network-manager-pptp network-manager-pptp-gnome network-manager-strongswan " +
-                             " network-manager-vpnc network-manager-vpnc-gnome neovim")
+        self.get_apt_commands()
+
     def setup_burpmodules(self):
         self.commands.append("mkdir -p " + self.basedir + "/burpmodules")
         if not os.path.exists(self.basedir + "/HUNT"):
@@ -77,6 +74,13 @@ class KaliSetup(object):
     def setup_reconng(self):
         if not os.path.exists(self.basedir + "/recon-ng"):
             self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git " + self.basedir + "/recon-ng")
+
+    def get_apt_commands(self):
+        self.commands.append("apt-get update")
+        self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
+                             "network-manager-pptp network-manager-pptp-gnome network-manager-strongswan " + 
+                             "network-manager-vpnc network-manager-vpnc-gnome neovim")
+        self.commands.append("apt-get -y dist-upgrade")
 
     def setup_go(self):
         """
