@@ -27,21 +27,18 @@ class KaliSetup(object):
         self.setup_domain()
         self.setup_reconng()
         self.setup_burpmodules()
+        self.get_linenum()
         self.executioner = ExecuteCommand()
         for command in self.commands:
             self.executioner.execute_command(command)
         # install vmware tools
         #install golang
         #clone gobuster
-        #clone haddix domain
-        #install openvpn
         #enable ssh?
-        #clone seclists
         #linenum?
         #privesccheck?
         #guake?
         #burp pro?
-        #clone hunt methodology
     def get_assets(self):
         """
         Get assets
@@ -81,21 +78,24 @@ class KaliSetup(object):
                              "network-manager-pptp network-manager-pptp-gnome network-manager-strongswan " + 
                              "network-manager-vpnc network-manager-vpnc-gnome neovim")
         self.commands.append("apt-get -y dist-upgrade")
+    
+    def get_linenum(self):
+        self.commands.append("git clone https://github.com/rebootuser/LinEnum.git")
 
     def setup_go(self):
         """
         setup golang
         """
-        # self.commands.append("wget https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz ")
-        # self.commands.append("tar -C /usr/local -zxvf go1.9.2.linux-amd64.tar.gz")
-        # self.commands.append("echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile")
+        self.commands.append("wget https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz ")
+        self.commands.append("tar -C /usr/local -zxvf go1.9.2.linux-amd64.tar.gz")
+        self.commands.append("export PATH=$PATH:/usr/local/go/bin")
 
     def get_gobuster(self):
         """
         setup gobuster
         """
-        # self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir)
-        # self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
-        # self.commands.append("export PATH=$PATH:/root/gobuster/")
+        self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir)
+        self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
+        self.commands.append("export PATH=$PATH:/root/gobuster/")
 
 KaliSetup()
