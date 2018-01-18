@@ -21,6 +21,7 @@ class KaliSetup(object):
         self.presentation.print_header(self.version)
         self.presentation.print_footer()
         self.basedir = "/root"
+        self.logger = Logger()
         self.get_commands()
         self.setup_go()
         self.get_gobuster()
@@ -57,10 +58,13 @@ class KaliSetup(object):
         self.get_apt_commands()
 
     def setup_burpmodules(self):
-        self.commands.append("mkdir -p " + self.basedir + "/burpmodules")
-        if not os.path.exists(self.basedir + "/HUNT"):
+        if not os.path.exists(self.basedir + "/burpmodules"):
+            self.commands.append("mkdir -p " + self.basedir + "/burpmodules")
+        if not os.path.exists(self.basedir + "/burpmodules/HUNT"):
             self.commands.append("git clone https://github.com/bugcrowd/HUNT.git " + self.basedir
                             + "/burpmodules/HUNT")
+
+    def get_seclists(self):
         if not os.path.exists(self.basedir + "/SecLists"):
             self.commands.append("git clone https://github.com/danielmiessler/SecLists " + self.basedir + "/SecLists")
 
@@ -80,22 +84,31 @@ class KaliSetup(object):
         self.commands.append("apt-get -y dist-upgrade")
     
     def get_linenum(self):
-        self.commands.append("git clone https://github.com/rebootuser/LinEnum.git")
+        if not os.path.exists(self.basedir + "/linenum"):
+            self.commands.append("git clone https://github.com/rebootuser/LinEnum.git" + self.basedir + "/linenum")
 
     def setup_go(self):
         """
         setup golang
         """
-        self.commands.append("wget https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz ")
-        self.commands.append("tar -C /usr/local -zxvf go1.9.2.linux-amd64.tar.gz")
-        self.commands.append("export PATH=$PATH:/usr/local/go/bin")
+        if not os.path.exists("/usr/local/go"):
+            self.commands.append("wget https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz")
+            self.commands.append("tar -C /usr/local -zxvf go1.9.2.linux-amd64.tar.gz")
+            self.commands.append("echo 'PATH=$PATH:/usr/local/go/bin' >> ~/.profile")
+
+        if not os.path.exists("/usr/local/go"):
+            self.logger.error("Unable to find installed go directory")
 
     def get_gobuster(self):
         """
         setup gobuster
         """
-        self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir)
-        self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
-        self.commands.append("export PATH=$PATH:/root/gobuster/")
+        if not os.path.exists(self.basedir + '/gobuster'):
+            self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir)
+        if os.path.exists(self.basedir + '/gobuster'): 
+            self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
+            self.commands.append("alias gobuster='go run /root/gobuster/main.go")
+        else:
+            self.logger.error("Unable to find gobuster directory")
 
 KaliSetup()
