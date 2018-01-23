@@ -26,6 +26,8 @@ class KaliSetup(object):
         self.setup_go()
         self.get_gobuster()
         self.setup_domain()
+        self.setup_discover()
+        self.extract_rockyou()
         self.setup_reconng()
         self.setup_burpmodules()
         self.get_linenum()
@@ -104,11 +106,23 @@ class KaliSetup(object):
         setup gobuster
         """
         if not os.path.exists(self.basedir + '/gobuster'):
-            self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir)
+            self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir + "/gobuster")
         if os.path.exists(self.basedir + '/gobuster'): 
             self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
             self.commands.append("alias gobuster='go run /root/gobuster/main.go")
         else:
             self.logger.error("Unable to find gobuster directory")
-
+    def get_discover(self):
+        """
+        setup discover framework
+        """
+        if not os.path.exists(self.basedir + "/discover"):
+            self.commands.append("git clone https://github.com/leebaird/discover " + self.basedir + "/discover")
+    
+    def extract_rockyou(self):
+        """
+        extract built-in rockyou in kali
+        """
+        if not os.path.exists("/usr/share/wordlists/rockyou.txt"):
+            self.commands.append("gzip -d /usr/share/wordlists/rockyou.txt.gz")
 KaliSetup()
