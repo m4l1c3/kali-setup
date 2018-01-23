@@ -55,7 +55,7 @@ class KaliSetup(object):
         get commands to run
         """
         self.commands = []
-        self.get_apt_commands()
+        #  self.get_apt_commands()
 
     def setup_burpmodules(self):
         if not os.path.exists(self.basedir + "/burpmodules"):
@@ -85,7 +85,7 @@ class KaliSetup(object):
     
     def get_linenum(self):
         if not os.path.exists(self.basedir + "/linenum"):
-            self.commands.append("git clone https://github.com/rebootuser/LinEnum.git" + self.basedir + "/linenum")
+            self.commands.append("git clone https://github.com/rebootuser/LinEnum.git " + self.basedir + "/linenum")
 
     def setup_go(self):
         """
@@ -104,7 +104,7 @@ class KaliSetup(object):
         setup gobuster
         """
         if not os.path.exists(self.basedir + '/gobuster'):
-            self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir)
+            self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir + "/gobuster")
         if os.path.exists(self.basedir + '/gobuster'): 
             self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
             self.commands.append("alias gobuster='go run /root/gobuster/main.go")
