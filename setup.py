@@ -24,9 +24,10 @@ class KaliSetup(object):
         self.logger = Logger()
         self.get_commands()
         self.setup_go()
-        self.get_gobuster()
+        #self.get_gobuster()
         self.setup_domain()
-        self.setup_discover()
+        self.get_neo4j()
+        self.get_discover()
         self.extract_rockyou()
         self.setup_reconng()
         self.setup_burpmodules()
@@ -127,4 +128,11 @@ class KaliSetup(object):
         """
         if not os.path.exists("/usr/share/wordlists/rockyou.txt") and os.path.exists("/usr/share/wordlists/rockyou.txt.gz"):
             self.commands.append("gzip -d /usr/share/wordlists/rockyou.txt.gz")
+
+    def get_neo4j(self):
+        if not os.path.exists(self.basedir + "/neo4j"):
+            self.commands.append("mkdir -p " + self.basedir + "/neo4j")
+        if not os.path.exists(self.basedir + "/neo4j/neo4j.AppImage"):
+            self.commands.append("curl -o " +  self.basedir + "/neo4j/neo4j.AppImage https://neo4j.com/artifact.php?name=neo4j-desktop-offline-1.0.10-x86_64.AppImage")
+            self.commands.append("chmod a+x " + self.basedir + "/neo4j/neo4j.AppImage")
 KaliSetup()
