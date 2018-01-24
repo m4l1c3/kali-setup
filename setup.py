@@ -7,7 +7,7 @@ from modules.logger import Logger
 from modules.presentation import Presentation
 from modules.execute_command import ExecuteCommand
 import os
-
+import sys
 
 class KaliSetup(object):
     """
@@ -20,7 +20,7 @@ class KaliSetup(object):
         self.website = 'https://github.com/m4l1c3/kali-setup'
         self.presentation.print_header(self.version)
         self.presentation.print_footer()
-        self.basedir = "/root"
+        self.basedir = "/opt"
         self.logger = Logger()
         self.get_commands()
         self.setup_go()
@@ -57,6 +57,7 @@ class KaliSetup(object):
         get commands to run
         """
         self.commands = []
+        self.commands.append("mkdir -p " + self.basedir)
         #  self.get_apt_commands()
 
     def setup_burpmodules(self):
@@ -96,6 +97,7 @@ class KaliSetup(object):
         if not os.path.exists("/usr/local/go"):
             self.commands.append("wget https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz")
             self.commands.append("tar -C /usr/local -zxvf go1.9.2.linux-amd64.tar.gz")
+        if "/usr/local/go" not in sys.path:
             self.commands.append("echo 'PATH=$PATH:/usr/local/go/bin' >> ~/.profile")
 
         if not os.path.exists("/usr/local/go"):
@@ -109,7 +111,7 @@ class KaliSetup(object):
             self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir + "/gobuster")
         if os.path.exists(self.basedir + '/gobuster'): 
             self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
-            self.commands.append("alias gobuster='go run /root/gobuster/main.go")
+            self.commands.append("alias gobuster='go run " + self.basedir + "/gobuster/main.go")
         else:
             self.logger.error("Unable to find gobuster directory")
     def get_discover(self):
@@ -123,6 +125,6 @@ class KaliSetup(object):
         """
         extract built-in rockyou in kali
         """
-        if not os.path.exists("/usr/share/wordlists/rockyou.txt"):
+        if not os.path.exists("/usr/share/wordlists/rockyou.txt") and os.path.exists("/usr/share/wordlists/rockyou.txt.gz"):
             self.commands.append("gzip -d /usr/share/wordlists/rockyou.txt.gz")
 KaliSetup()
