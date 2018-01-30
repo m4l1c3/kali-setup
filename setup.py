@@ -35,14 +35,6 @@ class KaliSetup(object):
         self.executioner = ExecuteCommand()
         for command in self.commands:
             self.executioner.execute_command(command)
-        # install vmware tools
-        #install golang
-        #clone gobuster
-        #enable ssh?
-        #linenum?
-        #privesccheck?
-        #guake?
-        #burp pro?
     def get_assets(self):
         """
         Get assets
@@ -84,7 +76,7 @@ class KaliSetup(object):
         self.commands.append("apt-get update")
         self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
                              "network-manager-pptp network-manager-pptp-gnome network-manager-strongswan " + 
-                             "network-manager-vpnc network-manager-vpnc-gnome neovim")
+                             "network-manager-vpnc network-manager-vpnc-gnome neovim steghide source-highlight")
         self.commands.append("apt-get -y dist-upgrade")
     
     def get_linenum(self):
