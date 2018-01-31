@@ -13,4 +13,4 @@
 - install mcrypt
 - install hashcat legacy??
 - get our custom vimrc
-
+- update searchsploit (searchsploit -u) should likely do this after running all the apt commands
