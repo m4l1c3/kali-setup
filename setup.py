@@ -32,6 +32,7 @@ class KaliSetup(object):
         self.setup_reconng()
         self.setup_burpmodules()
         self.get_linenum()
+        self.update_searchsploit()
         self.executioner = ExecuteCommand()
         for command in self.commands:
             self.executioner.execute_command(command)
@@ -76,7 +77,8 @@ class KaliSetup(object):
         self.commands.append("apt-get update")
         self.commands.append("apt-get install -y open-vm-tools network-manager-openvpn network-manager-openvpn-gnome " +
                              "network-manager-pptp network-manager-pptp-gnome network-manager-strongswan " + 
-                             "network-manager-vpnc network-manager-vpnc-gnome neovim steghide source-highlight")
+                             "network-manager-vpnc network-manager-vpnc-gnome neovim steghide source-highlight " + 
+                             "mcrypt")
         self.commands.append("apt-get -y dist-upgrade")
     
     def get_linenum(self):
@@ -113,7 +115,7 @@ class KaliSetup(object):
         """
         if not os.path.exists(self.basedir + "/discover"):
             self.commands.append("git clone https://github.com/leebaird/discover " + self.basedir + "/discover")
-    
+
     def extract_rockyou(self):
         """
         extract built-in rockyou in kali
@@ -127,4 +129,8 @@ class KaliSetup(object):
         if not os.path.exists(self.basedir + "/neo4j/neo4j.AppImage"):
             self.commands.append("curl -o " +  self.basedir + "/neo4j/neo4j.AppImage https://neo4j.com/artifact.php?name=neo4j-desktop-offline-1.0.10-x86_64.AppImage")
             self.commands.append("chmod a+x " + self.basedir + "/neo4j/neo4j.AppImage")
+
+    def update_searchsploit(self):
+        self.commands.append("searchsploit -u")
+
 KaliSetup()
