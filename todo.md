@@ -13,4 +13,4 @@
 - install mcrypt
 - install hashcat legacy??
 - get our custom vimrc
-
+- https://github.com/g0tmi1k/mpc.git
