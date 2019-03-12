@@ -68,7 +68,7 @@ class KaliSetup(object):
     def setup_domain(self):
         if not os.path.exists(self.basedir + "/domain"):
             self.commands.append("git clone https://github.com/jhaddix/domain.git " + self.basedir + "/domain")
-    
+
     def setup_reconng(self):
         if not os.path.exists(self.basedir + "/recon-ng"):
             self.commands.append("git clone https://bitbucket.org/LaNMaSteR53/recon-ng.git " + self.basedir + "/recon-ng")
@@ -80,7 +80,7 @@ class KaliSetup(object):
                              "network-manager-vpnc network-manager-vpnc-gnome neovim steghide source-highlight " + 
                              "mcrypt")
         self.commands.append("apt-get -y dist-upgrade")
-    
+
     def get_linenum(self):
         if not os.path.exists(self.basedir + "/linenum"):
             self.commands.append("git clone https://github.com/rebootuser/LinEnum.git " + self.basedir + "/linenum")
@@ -104,7 +104,7 @@ class KaliSetup(object):
         """
         if not os.path.exists(self.basedir + '/gobuster'):
             self.commands.append("git clone https://github.com/OJ/gobuster.git " + self.basedir + "/gobuster")
-        if os.path.exists(self.basedir + '/gobuster'): 
+        if os.path.exists(self.basedir + '/gobuster'):
             self.commands.append("cd " + self.basedir + "/gobuster && go get && go build && go install")
             self.commands.append("alias gobuster='go run " + self.basedir + "/gobuster/main.go")
         else:
